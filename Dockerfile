@@ -1,7 +1,7 @@
 FROM ubuntu:xenial
 MAINTAINER "Chris Miller" <c.a.miller@wustl.edu>
 
-RUN apt-get update -y && apt-get install -y \   
+RUN apt-get update -y && apt-get install -y \
     build-essential \
     curl \
     git \
@@ -34,7 +34,7 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /
     echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
 
 RUN apt-get update && apt-get --no-install-recommends install -y --force-yes \
-    oracle-java${JAVA_VERSION}-installer && \ 
+    oracle-java${JAVA_VERSION}-installer && \
     apt-get clean autoclean && \
     apt-get autoremove -y && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/ /var/cache/oracle-jdk${JAVA_VERSION}-installer
@@ -217,3 +217,4 @@ RUN mkdir -p /tmp/ucsc && \
 ## clean up
 RUN apt-get clean autoclean && \
     apt-get autoremove -y
+
