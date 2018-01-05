@@ -3,10 +3,18 @@ MAINTAINER "Chris Miller" <c.a.miller@wustl.edu>
 
 RUN apt-get update -y && apt-get install -y \
     build-essential \
+    cmake \
     curl \
+    default-jdk \
     git \
     libncurses5-dev \
     libcurl4-openssl-dev \
+    libtbb2 \
+    libtbb-dev \
+    nodejs \
+    python-dev \
+    python-pip \
+    tzdata \
     wget \
     zlib1g-dev \
     zip
@@ -21,24 +29,6 @@ RUN cd /tmp/ && \
     make && \
     cp biscuit /usr/bin && \
     rm -rf /tmp/biscuit*
-
-
-############################
-# java stuff for picard #
-ENV JAVA_VERSION=8
-# Install necessary packages including java 8 jre and clean up apt caches
-RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/webupd8team-java.list && \
-    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/webupd8team-java.list && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
-    echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-    echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
-
-RUN apt-get update && apt-get --no-install-recommends install -y --force-yes \
-    oracle-java${JAVA_VERSION}-installer && \
-    apt-get clean autoclean && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/{apt,dpkg,cache,log}/ /var/cache/oracle-jdk${JAVA_VERSION}-installer
-
 
 ##############
 #Picard 2.4.1#
@@ -215,6 +205,36 @@ RUN mkdir -p /tmp/ucsc && \
     chmod ugo+x * && \
     mv * /usr/bin/ && \
     rm -rf /tmp/ucsc
+
+###############
+#Flexbar 3.0.3#
+###############
+
+RUN mkdir -p /opt/flexbar/tmp \
+    && cd /opt/flexbar/tmp \
+    && wget https://github.com/seqan/flexbar/archive/v3.0.3.tar.gz \
+    && wget https://github.com/seqan/seqan/releases/download/seqan-v2.2.0/seqan-library-2.2.0.tar.xz \
+    && tar xzf v3.0.3.tar.gz \
+    && tar xJf seqan-library-2.2.0.tar.xz \
+    && mv seqan-library-2.2.0/include flexbar-3.0.3 \
+    && cd flexbar-3.0.3 \
+    && cmake . \
+    && make \
+    && cp flexbar /opt/flexbar/ \
+    && cd / \
+    && rm -rf /opt/flexbar/tmp
+
+######
+#Toil#
+######
+RUN apt-get update -y && apt-get install -y \
+    nodejs \
+    python-dev \
+    python-pip \
+    tzdata 
+RUN pip install --upgrade pip \
+    && pip install toil[cwl]==3.12.0 \
+    && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
 
 
 
