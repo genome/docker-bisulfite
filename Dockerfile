@@ -186,7 +186,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends locales && \
 
    ## install r packages, bioconductor, etc ##
    ADD rpackages.R /tmp/
-   RUN R -f /tmp/rpackages.R && \
+   RUN R -f /tmp/rpackages.R
 
    ## Clean up
    RUN cd / && \
