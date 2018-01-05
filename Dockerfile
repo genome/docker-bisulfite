@@ -196,8 +196,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends locales && \
    rm -rf /var/lib/apt/lists/* && \
    apt-get clean
 
-
-
 #################
 #Sambamba v0.6.4#
 #################
@@ -213,10 +211,9 @@ RUN mkdir -p /tmp/ucsc && \
     cd /tmp/ucsc && \
     wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedGraphToBigWig && \
     chmod ugo+x * && \
-    mv * /usr/bin/
+    mv * /usr/bin/ && \
+    rm -rf /tmp/ucsc
 
-
-
+## clean up
 RUN apt-get clean autoclean && \
     apt-get autoremove -y
-
