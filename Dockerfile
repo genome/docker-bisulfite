@@ -236,8 +236,6 @@ RUN pip install --upgrade pip \
     && pip install toil[cwl]==3.12.0 \
     && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
 
-
-
 ## clean up
 RUN apt-get clean autoclean && \
     apt-get autoremove -y
