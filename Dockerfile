@@ -224,6 +224,35 @@ RUN mkdir -p /opt/flexbar/tmp \
     && cd / \
     && rm -rf /opt/flexbar/tmp
 
+##############
+#HTSlib 1.3.2#
+##############
+ENV HTSLIB_INSTALL_DIR=/opt/htslib
+
+WORKDIR /tmp
+RUN wget https://github.com/samtools/htslib/releases/download/1.3.2/htslib-1.3.2.tar.bz2 && \
+    tar --bzip2 -xvf htslib-1.3.2.tar.bz2 && \
+    cd /tmp/htslib-1.3.2 && \
+    ./configure  --enable-plugins --prefix=$HTSLIB_INSTALL_DIR && \
+    make && \
+    make install && \
+    cp $HTSLIB_INSTALL_DIR/lib/libhts.so* /usr/lib/
+
+################
+#Samtools 1.3.1#
+################
+ENV SAMTOOLS_INSTALL_DIR=/opt/samtools
+
+WORKDIR /tmp
+RUN wget https://github.com/samtools/samtools/releases/download/1.3.1/samtools-1.3.1.tar.bz2 && \
+    tar --bzip2 -xf samtools-1.3.1.tar.bz2 && \
+    cd /tmp/samtools-1.3.1 && \
+    ./configure --with-htslib=$HTSLIB_INSTALL_DIR --prefix=$SAMTOOLS_INSTALL_DIR && \
+    make && \
+    make install && \
+    cd / && \
+    rm -rf /tmp/samtools-1.3.1
+
 ######
 #Toil#
 ######
@@ -235,6 +264,12 @@ RUN apt-get update -y && apt-get install -y \
 RUN pip install --upgrade pip \
     && pip install toil[cwl]==3.12.0 \
     && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
+
+
+######
+# Needed for MGI mounts
+######
+RUN apt-get update -y && apt-get install -y libnss-sss
 
 ## clean up
 RUN apt-get clean autoclean && \
