@@ -252,6 +252,9 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.3.1/samtools-1
     make install && \
     cd / && \
     rm -rf /tmp/samtools-1.3.1
+    
+#wrapper script for converting bam to cram
+ADD bam_to_cram /usr/bin/
 
 ######
 #Toil#
@@ -264,7 +267,6 @@ RUN apt-get update -y && apt-get install -y \
 RUN pip install --upgrade pip \
     && pip install toil[cwl]==3.12.0 \
     && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
-
 
 ######
 # Needed for MGI mounts
