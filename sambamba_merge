@@ -9,9 +9,10 @@ if [[ "$#" -lt 3 ]]; then
     echo "not enough parameters specified. Expected numCores, outfile, and input_bams"
     exit 1
 fi
-#if there is only one bam, just copy it
+#if there is only one bam, just copy it and index it
 if [[ "$#" -eq 3 ]]; then
     cp "$3" "$2"
 else
-    /usr/bin/sambamba merge -t $1 "$2" "${@:3}" && /opt/samtools/bin/samtools index "$2"
+    /usr/bin/sambamba merge -t $1 "$2" "${@:3}"
 fi
+/opt/samtools/bin/samtools index "$2"
