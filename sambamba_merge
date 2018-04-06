@@ -13,5 +13,5 @@ fi
 if [[ "$#" -eq 3 ]]; then
     cp "$3" "$2"
 else
-    /usr/bin/sambamba merge -t $1 "$2" "${@:3}"
+    /usr/bin/sambamba merge -t $1 "$2" "${@:3}" && /opt/samtools/bin/samtools index "$2"
 fi
