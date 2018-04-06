@@ -276,4 +276,3 @@ RUN apt-get update -y && apt-get install -y libnss-sss
 ## clean up
 RUN apt-get clean autoclean && \
     apt-get autoremove -y
-
