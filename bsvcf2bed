@@ -1,0 +1,11 @@
+#arg1 = /path/to/input/biscuit_pileup.vcf 
+#arg2 = /path/to/output/cpgs.bed.gz
+#arg3 = /path/to/output/cpgs.bedgraph
+
+#Creates a gzipped bed and a bedgraph that leaves out MT, random, GL contigs, etc
+if [[ "$#" -lt 3 ]]; then
+    echo "not enough parameters specified. Expected biscuit_vcf, output_cpgs.bed.gz, output_cpgs.bedgrap"
+    exit 1
+fi
+
+/usr/bin/biscuit vcf2bed -k 2 -t cg -c "$1" | tee >(/bin/gzip >"$2") | cut -f 1-4 | sort -k1,1 -k2,2n -S 12G | /usr/bin/perl -ne 'print $_ if $_ =~ /^(chr)?[1-9]?[0-9|X|Y]\s/' >"$3"
