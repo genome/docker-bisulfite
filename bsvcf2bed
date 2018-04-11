@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #arg1 = /path/to/input/biscuit_pileup.vcf 
 #arg2 = /path/to/output/cpgs.bed.gz
 #arg3 = /path/to/output/cpgs.bedgraph
