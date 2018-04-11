@@ -1,10 +1,10 @@
 #arg1 = reference fasta
 #arg2 = bam file
-#arg3 = output directory
+#arg3 = output cram
 
 if [[ "$#" -lt 3 ]]; then
-    echo "not enough parameters specified. Expected refFasta, bamFile, and outdir"
+    echo "not enough parameters specified. Expected refFasta, bamFile, and output cram"
     exit 1
 fi
-/opt/samtools/bin/samtools view -T "$1" -C -O cram -o "$3"/merged.cram "$2"
-/opt/samtools/bin/samtools index "$3"/merged.cram
+/opt/samtools/bin/samtools view -T "$1" -C -O cram -o "$3" "$2"
+/opt/samtools/bin/samtools index "$3"
