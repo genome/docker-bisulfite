@@ -255,6 +255,8 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.3.1/samtools-1
     
 #wrapper script for converting bam to cram
 ADD bam_to_cram /usr/bin/
+#wrapper script for converting vcf2bed
+ADD bsvcf2bed /usr/bin/
 
 ######
 #Toil#
