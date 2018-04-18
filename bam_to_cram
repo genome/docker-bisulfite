@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -o pipefail
+set -o errexit
+set -o nounset
+
 #arg1 = reference fasta
 #arg2 = bam file
 #arg3 = output cram
