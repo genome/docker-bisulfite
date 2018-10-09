@@ -22,13 +22,15 @@ RUN apt-get update -y && apt-get install -y \
 ##################
 # Biscuit v0.3.8 #
 ##################
-RUN cd /tmp/ && \
-    wget https://github.com/zwdzwd/biscuit/archive/v0.3.8.20180515.zip && \
-    unzip v0.3.8.20180515.zip && \
-    cd biscuit-0.3.8.20180515 && \
-    make && \
-    cp biscuit /usr/bin && \
-    rm -rf /tmp/biscuit*
+# RUN cd /tmp/ && \
+#     wget https://github.com/zwdzwd/biscuit/archive/v0.3.8.20180515.zip && \
+#     unzip v0.3.8.20180515.zip && \
+    # cd biscuit-0.3.8.20180515 && \
+    # make && \
+    # cp biscuit /usr/bin && \
+    # rm -rf /tmp/biscuit*
+RUN mkdir /opt/biscuit && cd /opt/biscuit && wget https://github.com/zwdzwd/biscuit/releases/download/v0.3.8.20180515/biscuit_0_3_8_x86_64 && \
+    chmod +x biscuit_0_3_8_x86_64 && cd /usr/bin && ln -s /opt/biscuit/biscuit_0_3_8_x86_64
 
 ##############
 #Picard 2.4.1#
