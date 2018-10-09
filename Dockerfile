@@ -140,9 +140,10 @@ RUN apt-get update -y && apt-get install -y \
     python-dev \
     python-pip \
     tzdata 
-RUN pip install --upgrade pip \
-    && pip install toil[cwl]==3.12.0 \
-    && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
+#RUN pip install --upgrade pip \
+#    && pip install toil[cwl]==3.12.0 \
+#    && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
+RUN pip install toil[cwl]==3.12.0  && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
 
 ######
 # Needed for MGI mounts
