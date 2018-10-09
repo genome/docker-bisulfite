@@ -20,12 +20,12 @@ RUN apt-get update -y && apt-get install -y \
     zip
 
 ##################
-# Biscuit v0.2.2 #
+# Biscuit v0.3.8 #
 ##################
 RUN cd /tmp/ && \
-    wget https://github.com/zwdzwd/biscuit/releases/download/v0.2.2.20170522/release-v0.2.2.zip && \
-    unzip release-v0.2.2.zip && \
-    cd biscuit-release && \
+    wget https://github.com/zwdzwd/biscuit/archive/v0.3.8.20180515.zip && \
+    unzip v0.3.8.20180515.zip && \
+    cd biscuit-0.3.8.20180515 && \
     make && \
     cp biscuit /usr/bin && \
     rm -rf /tmp/biscuit*
