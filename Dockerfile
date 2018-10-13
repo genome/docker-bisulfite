@@ -20,15 +20,10 @@ RUN apt-get update -y && apt-get install -y \
     zip
 
 ##################
-# Biscuit v0.2.2 #
+# Biscuit v0.3.8 #
 ##################
-RUN cd /tmp/ && \
-    wget https://github.com/zwdzwd/biscuit/releases/download/v0.2.2.20170522/release-v0.2.2.zip && \
-    unzip release-v0.2.2.zip && \
-    cd biscuit-release && \
-    make && \
-    cp biscuit /usr/bin && \
-    rm -rf /tmp/biscuit*
+RUN mkdir /opt/biscuit && cd /opt/biscuit && wget https://github.com/zwdzwd/biscuit/releases/download/v0.3.8.20180515/biscuit_0_3_8_x86_64 && \
+    chmod +x biscuit_0_3_8_x86_64 && cd /usr/bin && ln -s /opt/biscuit/biscuit_0_3_8_x86_64 biscuit
 
 ##############
 #Picard 2.4.1#
@@ -59,7 +54,6 @@ RUN apt-get update && apt-get install ant --no-install-recommends -y && \
     rm -rf src && \
     rm -rf lib && \
     rm build.xml
-
 
 #################
 #Sambamba v0.6.4#
@@ -130,6 +124,7 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.3.1/samtools-1
     
 #wrapper script for converting vcf2bed
 ADD bsvcf2bed /usr/bin/
+ADD bam_to_cram /usr/bin/
 
 ######
 #Toil#
@@ -139,8 +134,8 @@ RUN apt-get update -y && apt-get install -y \
     python-dev \
     python-pip \
     tzdata 
-RUN pip install toil[cwl]==3.12.0 \
-    && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
+
+RUN pip install toil[cwl]==3.12.0  && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
 
 ######
 # Needed for MGI mounts
