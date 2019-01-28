@@ -14,4 +14,4 @@ if [[ "$#" -lt 3 ]]; then
     exit 1
 fi
 
-/usr/bin/biscuit vcf2bed -k 2 -t cg "$1" | tee >(/bin/gzip >"$2") | cut -f 1-4 | sort -k1,1 -k2,2n -S 12G | /usr/bin/perl -ne 'print $_ if $_ =~ /^(chr)?[1-9]?[0-9|X|Y]\s/' >"$3"
+perl /usr/bin/biscuitVcfToBed.pl "$1" |  tee >(/bin/gzip >"$2") | cut -f 1-4 | sort -k1,1 -k2,2n -S 12G | /usr/bin/perl -ne 'print $_ if $_ =~ /^(chr)?[1-9]?[0-9|X|Y]\s/' >"$3"
