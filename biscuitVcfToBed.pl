@@ -50,6 +50,7 @@ while(my $line = <INVCF>){
             $prev{"BT"} = $vals[$bt_ind];
         } else {
             #not a C or G - this should never happen
+            die("ERROR: CpG context reported, but ref base isn't a C or G:\n$line\n");
             next;
         }
     } else {
@@ -77,7 +78,7 @@ while(my $line = <INVCF>){
             }
         } else {
             #not a C or G - this should never happen
-            next;
+            die("ERROR: CpG context reported, but ref base isn't a C or G:\n$line\n");
         }
     }
 }
