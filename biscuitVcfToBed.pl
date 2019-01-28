@@ -51,7 +51,6 @@ while(my $line = <INVCF>){
         } else {
             #not a C or G - this should never happen
             die("ERROR: CpG context reported, but ref base isn't a C or G:\n$line\n");
-            next;
         }
     } else {
         #prev has data, this is a C, print prev, store this
