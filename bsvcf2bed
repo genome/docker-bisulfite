@@ -1,4 +1,4 @@
-#!/bin/bash
+bsvcf2bed#!/bin/bash
 
 set -o pipefail
 set -o errexit
@@ -12,6 +12,11 @@ set -o nounset
 #Creates a gzipped bed and a bedgraph that leaves out MT, random, GL contigs, etc
 if [[ "$#" -lt 4 ]]; then
     echo "not enough parameters specified. Expected biscuit_vcf, reference_fasta, output_cpgs.bed.gz, output_cpgs.bedgraph"
+    exit 1
+fi
+
+if [[ ! -e "$2.gz" ]];then
+    echo "ERROR: file not found. bsvcf2bed expected a gzipped, indexed fasta file at $2.gz"
     exit 1
 fi
 
