@@ -1,4 +1,4 @@
-bsvcf2bed#!/bin/bash
+#!/bin/bash
 
 set -o pipefail
 set -o errexit
