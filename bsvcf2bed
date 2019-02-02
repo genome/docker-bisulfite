@@ -11,7 +11,7 @@ set -o nounset
 
 #Creates a gzipped bed and a bedgraph that leaves out MT, random, GL contigs, etc
 if [[ "$#" -lt 4 ]]; then
-    echo "not enough parameters specified. Expected biscuit_vcf, reference_fasta, output_cpgs.bed.gz, output_cpgs.bedgrap"
+    echo "not enough parameters specified. Expected biscuit_vcf, reference_fasta, output_cpgs.bed.gz, output_cpgs.bedgraph"
     exit 1
 fi
 
