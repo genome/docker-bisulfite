@@ -20,12 +20,6 @@ RUN apt-get update -y && apt-get install -y \
     zlib1g-dev \
     zip
 
-##################
-# Biscuit v0.3.8 #
-##################
-RUN mkdir /opt/biscuit && cd /opt/biscuit && wget https://github.com/zwdzwd/biscuit/releases/download/v0.3.8.20180515/biscuit_0_3_8_x86_64 && \
-    chmod +x biscuit_0_3_8_x86_64 && cd /usr/bin && ln -s /opt/biscuit/biscuit_0_3_8_x86_64 biscuit
-
 ##############
 #Picard 2.4.1#
 ##############
@@ -56,17 +50,6 @@ RUN apt-get update && apt-get install ant --no-install-recommends -y && \
     rm -rf lib && \
     rm build.xml
 
-#################
-#Sambamba v0.6.4#
-#################
-
-RUN mkdir /opt/sambamba/ \
-    && wget https://github.com/lomereiter/sambamba/releases/download/v0.6.4/sambamba_v0.6.4_linux.tar.bz2 \
-    && tar --extract --bzip2 --directory=/opt/sambamba --file=sambamba_v0.6.4_linux.tar.bz2 \
-    && ln -s /opt/sambamba/sambamba_v0.6.4 /usr/bin/sambamba
-   ADD sambamba_merge /usr/bin/
-   RUN chmod +x /usr/bin/sambamba_merge
-
 ##################
 # ucsc utilities #
 RUN mkdir -p /tmp/ucsc && \
@@ -93,50 +76,6 @@ RUN mkdir -p /opt/flexbar/tmp \
     && cp flexbar /opt/flexbar/ \
     && cd / \
     && rm -rf /opt/flexbar/tmp
-
-##############
-#HTSlib 1.3.2#
-##############
-ENV HTSLIB_INSTALL_DIR=/opt/htslib
-
-WORKDIR /tmp
-RUN wget https://github.com/samtools/htslib/releases/download/1.3.2/htslib-1.3.2.tar.bz2 && \
-    tar --bzip2 -xvf htslib-1.3.2.tar.bz2 && \
-    cd /tmp/htslib-1.3.2 && \
-    ./configure  --enable-plugins --prefix=$HTSLIB_INSTALL_DIR && \
-    make && \
-    make install && \
-    cp $HTSLIB_INSTALL_DIR/lib/libhts.so* /usr/lib/
-
-################
-#Samtools 1.3.1#
-################
-ENV SAMTOOLS_INSTALL_DIR=/opt/samtools
-
-WORKDIR /tmp
-RUN wget https://github.com/samtools/samtools/releases/download/1.3.1/samtools-1.3.1.tar.bz2 && \
-    tar --bzip2 -xf samtools-1.3.1.tar.bz2 && \
-    cd /tmp/samtools-1.3.1 && \
-    ./configure --with-htslib=$HTSLIB_INSTALL_DIR --prefix=$SAMTOOLS_INSTALL_DIR && \
-    make && \
-    make install && \
-    cd / && \
-    rm -rf /tmp/samtools-1.3.1
-    
-#wrapper script for converting vcf2bed
-ADD bsvcf2bed /usr/bin/
-ADD bam_to_cram /usr/bin/
-
-######
-#Toil#
-######
-RUN apt-get update -y && apt-get install -y \
-    nodejs \
-    python-dev \
-    python-pip \
-    tzdata 
-
-RUN pip install toil[cwl]==3.12.0  && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
 
 ######
 # Needed for MGI mounts
